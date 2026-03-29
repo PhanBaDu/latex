@@ -383,27 +383,34 @@ Em xin chân thành cảm ơn!
 \addcontentsline{toc}{section}{DANH MỤC TỪ VIẾT TẮT}
 
 \noindent
-\begin{longtable}[l]{@{}p{3.0cm}p{4.4cm}p{7.4cm}@{}}
+\begingroup
+\renewcommand{\arraystretch}{1.18}%
+\begin{tabularx}{\textwidth}{@{}
+    >{\centering\arraybackslash}m{2.35cm}
+    >{\raggedright\arraybackslash}X
+    >{\raggedright\arraybackslash}X
+@{}}
     \toprule
-    \centering\textbf{Ký hiệu} & \centering\textbf{Tiếng Anh} & \centering\textbf{Tiếng Việt} \\
-    \midrule\endhead
-    \bottomrule\endfoot
-    \textbf{API}   & Application Programming Interface   & Giao diện lập trình ứng dụng \\[0.3ex]
-    \textbf{DHT}   & Digital Humidity and Temperature   & Cảm biến nhiệt độ \& độ ẩm số \\[0.3ex]
-    \textbf{GPIO}  & General Purpose Input/Output       & Chân vào/ra đa mục đích \\[0.3ex]
-    \textbf{HTTP}  & HyperText Transfer Protocol       & Giao thức truyền siêu văn bản \\[0.3ex]
-    \textbf{I$^2$C} & Inter-Integrated Circuit          & Giao thức truyền thông hai dây \\[0.3ex]
-    \textbf{JSON}  & JavaScript Object Notation        & Ký hiệu đối tượng JavaScript --- định dạng chuỗi dữ liệu \\[0.3ex]
-    \textbf{LED}   & Light-Emitting Diode               & Điốt phát quang \\[0.3ex]
-    \textbf{MQTT}  & Message Queuing Telemetry Transport & Giao thức truyền thông điệp theo mô hình pub/sub \\[0.3ex]
-    \textbf{NRD}   & Node-RED Dashboard                 & Giao diện dashboard của Node-RED \\[0.3ex]
-    \textbf{NTP}   & Network Time Protocol               & Giao thức đồng bộ thời gian qua mạng \\[0.3ex]
-    \textbf{OLED}  & Organic Light-Emitting Diode        & Màn hình diod phát quang hữu cơ \\[0.3ex]
-    \textbf{PWM}   & Pulse Width Modulation              & Điều chế độ rộng xung \\[0.3ex]
-    \textbf{SDK}   & Software Development Kit            & Bộ công cụ phát triển phần mềm \\[0.3ex]
-    \textbf{TLS}   & Transport Layer Security            & Giao thức bảo mật tầng truyền tải \\[0.3ex]
-    \textbf{URL}   & Uniform Resource Locator           & Bộ định vị tài nguyên thống nhất
-\end{longtable}
+    \textbf{Ký hiệu} & \textbf{Tiếng Anh} & \textbf{Tiếng Việt} \\
+    \midrule
+    \textbf{API}   & Application Programming Interface   & Giao diện lập trình ứng dụng \\
+    \textbf{DHT}   & Digital Humidity and Temperature   & Cảm biến nhiệt độ \& độ ẩm số \\
+    \textbf{GPIO}  & General Purpose Input/Output       & Chân vào/ra đa mục đích \\
+    \textbf{HTTP}  & HyperText Transfer Protocol       & Giao thức truyền siêu văn bản \\
+    \textbf{I$^2$C} & Inter-Integrated Circuit          & Giao thức truyền thông hai dây \\
+    \textbf{JSON}  & JavaScript Object Notation        & Ký hiệu đối tượng JavaScript --- định dạng chuỗi dữ liệu \\
+    \textbf{LED}   & Light-Emitting Diode               & Điốt phát quang \\
+    \textbf{MQTT}  & Message Queuing Telemetry Transport & Giao thức truyền thông điệp theo mô hình pub/sub \\
+    \textbf{NRD}   & Node-RED Dashboard                 & Giao diện dashboard của Node-RED \\
+    \textbf{NTP}   & Network Time Protocol               & Giao thức đồng bộ thời gian qua mạng \\
+    \textbf{OLED}  & Organic Light-Emitting Diode        & Màn hình diod phát quang hữu cơ \\
+    \textbf{PWM}   & Pulse Width Modulation              & Điều chế độ rộng xung \\
+    \textbf{SDK}   & Software Development Kit            & Bộ công cụ phát triển phần mềm \\
+    \textbf{TLS}   & Transport Layer Security            & Giao thức bảo mật tầng truyền tải \\
+    \textbf{URL}   & Uniform Resource Locator           & Bộ định vị tài nguyên thống nhất \\
+    \bottomrule
+\end{tabularx}
+\endgroup
 
 \newpage
 % =============================================================================
@@ -424,10 +431,6 @@ Internet of Things (IoT) là xu hướng kết nối các thiết bị vật lý
     \item \textbf{Tầng trung gian (Middleware):} \textbf{MQTT Broker} \textbf{HiveMQ Cloud} (TLS, port 8883) làm trung tâm truyền tin giữa thiết bị và giao diện.
     \item \textbf{Tầng ứng dụng (Application):} \textbf{NRD} (Node-RED Dashboard) cung cấp giao diện giám sát trực quan (gauge, biểu đồ), cảnh báo (toast notification), điều khiển đèn (switch, slider), và đồng bộ trạng thái hai chiều hoàn toàn qua trình duyệt.
 \end{itemize}
-
-\begin{mdframed}[backgroundcolor=yellow!20, linecolor=yellow!60]
-    \textbf{Lưu ý bảo mật:} Thông tin đăng nhập MQTT trong tài liệu này được thay bằng \code{****}. File \file{iot-nhom6.ino} chứa thông tin thật --- không đưa lên GitHub công khai sau khi nộp báo cáo.
-\end{mdframed}
 
 % =============================================================================
 % 2. NỘI DUNG THỰC HIỆN
@@ -580,49 +583,41 @@ OLED được cập nhật ngay lập tức mỗi khi có thao tác LED (MQTT ca
 
 Node-RED nhận message từ MQTT, parse JSON và phân luồng xử lý.
 
-\textbf{Cấu trúc flow chính:}
+\textbf{Cấu trúc flow chính:} theo tab \texttt{MQTT} trong \file{node-red.json}. Topic \texttt{iot/env/data} mang JSON do \code{publishEnvData} (trong \file{iot.txt}) tạo: \code{temperature}, \code{humidity}, các cờ \code{tempAlert*} / \code{humiAlert*} và \code{message}. Node \texttt{HandleData} vẫn tách đủ 4 nhánh; nhánh \textbf{ledState} chỉ có tác dụng khi object có trường \code{ledState} (còn không thì function trả \code{null}). Đồng bộ đèn từ thiết bị thật chủ yếu qua \texttt{iot/led/status} (Hình~\ref{fig:flow2}).
 
 \begin{figure}[htbp]
     \centering
-    \resizebox{\linewidth}{!}{%
     \begin{tikzpicture}[
         font=\scriptsize,
-        >=Latex[length=2.4mm,width=1.7mm],
-        flowarrow/.style={-{Latex[length=2.4mm,width=1.7mm]}, semithick, draw=black!50, shorten >=0.6pt, shorten <=0.6pt},
-        mqttn/.style={draw=black!42, line width=0.48pt, rounded corners=4pt, fill=green!10, inner sep=7pt, align=center, minimum width=3.15cm},
-        fn/.style={draw=black!38, line width=0.45pt, rounded corners=4pt, fill=yellow!14, inner sep=6pt, align=center, text width=2.32cm, minimum height=0.95cm},
-        uin/.style={draw=black!38, line width=0.45pt, rounded corners=4pt, fill=blue!10, inner sep=6pt, align=center, text width=2.5cm, minimum height=0.9cm},
+        >=Latex,
+        mqttn/.style={draw=black!55, rounded corners=2pt, fill=green!14, inner sep=6pt, align=center, minimum width=2.85cm},
+        fn/.style={draw=black!55, rounded corners=2pt, fill=yellow!12, inner sep=6pt, align=center},
+        uin/.style={draw=black!55, rounded corners=2pt, fill=blue!9, inner sep=6pt, align=center, text width=2.65cm},
+        dbg/.style={draw=black!45, dashed, rounded corners=2pt, fill=gray!10, inner sep=5pt, align=center, text width=1.9cm},
     ]
-        % --- Tọa độ cột (đủ rộng để 4 nhánh không chen) ---
-        \def\xa{-5.25} \def\xb{-1.72} \def\xc{1.72} \def\xd{5.25}
-        \node[mqttn] (m1) {\textbf{mqtt in}\\\texttt{iot/env/data}};
-        \node[fn, text width=10.65cm, minimum height=1.2cm] (hd) at (0,-2.25) {\textbf{HandleData} (function)\\[3pt]parse JSON, tách 4 nhánh song song};
-        \draw[flowarrow] (m1) -- (hd);
-        \foreach \x/\lab in {-5.25/temperature, -1.72/humidity, 1.72/alert, 5.25/ledState}
-            \node[fn] (\lab) at (\x,-4.65) {\textbf{\lab}};
-        \coordinate (S) at (0,-3.12);
-        \draw[flowarrow] (hd.south) -- (S);
-        % Đường phân nhánh ngang mảnh (bus) — vẽ trước, mũi tên tới cột vẽ sau
-        \begin{scope}[opacity=0.55]
-            \draw[draw=black!28, line width=0.75pt, line cap=round] (-5.8,-3.12) -- (5.8,-3.12);
-        \end{scope}
+        % Cột x (4 nhánh) — cùng phong cách Hình~\ref{fig:flow2}
+        \def\xa{-4.85} \def\xb{-1.62} \def\xc{1.62} \def\xd{4.85}
+        \node[mqttn] (m1) at (0,0) {\textbf{mqtt in}\\\texttt{iot/env/data}};
+        \node[dbg] (dbg) at (-6.1,0) {\textbf{debug}\\\tiny sidebar};
+        \draw[->, thick, dashed] (m1.west) -- (dbg.east);
+        \node[fn, text width=9.6cm] (hd) at (0,-2.35) {\textbf{HandleData} (function)\\[2pt]\texttt{JSON.parse} nếu string $\rightarrow$ \textbf{4 output} song song (cùng payload)};
+        \draw[->, thick] (m1) -- (hd);
+        \foreach \x/\lab in {-4.85/temperature, -1.62/humidity, 1.62/alert, 4.85/ledState}
+            \node[fn, text width=2.05cm, minimum width=2.1cm] (\lab) at (\x,-4.55) {\textbf{\lab}};
+        \coordinate (S) at (0,-3.38);
+        \draw[->, thick] (hd.south) -- (S);
         \foreach \lab in {temperature, humidity, alert, ledState}
-            \draw[flowarrow] (S) |- (\lab.north);
-        \node[fn] (tf) at (\xa,-6.45) {temperature\\function};
-        \node[fn] (hf) at (\xb,-6.45) {humidity\\function};
-        \node[fn] (af) at (\xc,-6.45) {alert\\function};
-        \node[fn] (lf) at (\xd,-6.45) {ledState\\function};
-        \foreach \a/\b in {temperature/tf, humidity/hf, alert/af, ledState/lf}
-            \draw[flowarrow] (\a) -- (\b);
-        \node[uin] (u1) at (\xa,-8.65) {\textbf{ui\_gauge}\\\textbf{ui\_chart}};
-        \node[uin] (u2) at (\xb,-8.65) {\textbf{ui\_gauge}\\\textbf{ui\_chart}};
-        \node[uin] (u3) at (\xc,-8.65) {\textbf{ui\_toast}};
-        \node[uin] (u4) at (\xd,-8.65) {\textbf{ui\_switch}};
-        \foreach \a/\b in {tf/u1, hf/u2, af/u3, lf/u4}
-            \draw[flowarrow] (\a) -- (\b);
-    \end{tikzpicture}%
-    }
-    \caption{Luồng MQTT chính trong Node-RED}
+            \draw[->, thick] (S) -| (\lab.north);
+        \node[uin] (u1) at (\xa,-6.95) {\textbf{ui\_gauge} + \textbf{ui\_chart}\\\tiny Nhiệt độ hiện tại, Biểu đồ nhiệt độ};
+        \node[uin] (u2) at (\xb,-6.95) {\textbf{ui\_gauge} + \textbf{ui\_chart}\\\tiny Độ ẩm hiện tại, Biểu đồ độ ẩm};
+        \node[uin] (u3) at (\xc,-6.95) {\textbf{ui\_toast}\\\tiny Cảnh báo môi trường};
+        \node[uin] (u4) at (\xd,-6.95) {\textbf{ui\_switch}\\\tiny đồng bộ (Bật/Tắt đèn)};
+        \draw[->, thick] (temperature) -- (u1);
+        \draw[->, thick] (humidity) -- (u2);
+        \draw[->, thick] (alert) -- (u3);
+        \draw[->, thick] (ledState) -- (u4);
+    \end{tikzpicture}
+    \caption{Luồng MQTT chính trong Node-RED: \texttt{mqtt in} \texttt{iot/env/data} song song với \texttt{debug}; \texttt{HandleData} tách bốn nhánh tới các function rồi tới Dashboard (đúng nối dây trong \file{node-red.json}).}
     \label{fig:flow1}
 \end{figure}
 
@@ -992,21 +987,21 @@ Hệ thống được lắp mạch thật theo sơ đồ dưới đây. Không s
     \end{tabular}
 \end{table}
 
-\textbf{Sơ đồ đấu dây đơn giản:}
+\textbf{Sơ đồ nguyên lý và mạch thật} (thay cho sơ đồ đấu dây dạng text): Hình~\ref{fig:gpio-schematic} và Hình~\ref{fig:gpio-pcb}.
 
-\begin{lstlisting}[style=flowcode, caption={Sơ đồ đấu dây}, label={lst:wiring}]
-  ESP8266 3.3V --- DHT11 VCC
-  ESP8266 GND --- DHT11 GND
-  ESP8266 GPIO0 --- DHT11 DATA
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{\FigSchA}
+    \caption{Sơ đồ nguyên lý: NodeMCU ESP8266, DHT11, OLED (I$^2$C), LED và điện trở hạn dòng --- tương ứng bảng kết nối Bảng~\ref{tbl:gpio}.}
+    \label{fig:gpio-schematic}
+\end{figure}
 
-  ESP8266 3.3V --- OLED VCC
-  ESP8266 GND --- OLED GND
-  ESP8266 GPIO4 --- OLED SCL
-  ESP8266 GPIO5 --- OLED SDA
-
-  ESP8266 GPIO12 --- R330 (330 Ohm) --- LED Anode (A)
-  ESP8266 GND --- LED Cathode (C)
-\end{lstlisting}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.92\textwidth]{\FigSchB}
+    \caption{Ảnh mạch in thực tế (mặt hàn linh kiện): module nguồn hạ áp, các mối hàn tới ESP8266 và ngoại vi.}
+    \label{fig:gpio-pcb}
+\end{figure}
 
 % -----------------------------------------------------------------------------
 \subsection{Giải thích các linh kiện}
@@ -1333,10 +1328,6 @@ const char *mqtt_user   = "****";    // Thay bang tai khoan HiveMQ that
 const char *mqtt_pass   = "****";    // Thay bang mat khau HiveMQ that
 \end{lstlisting}
 
-\begin{mdframed}[backgroundcolor=yellow!20, linecolor=yellow!60]
-    \textbf{Lưu ý bảo mật:} Không commit file chứa mật khẩu thật lên GitHub. Sau khi nộp báo cáo, nên đổi mật khẩu MQTT trên HiveMQ Cloud để tránh lộ thông tin.
-\end{mdframed}
-
 % -----------------------------------------------------------------------------
 \subsection{Build, nạp firmware và Serial Monitor}
 \label{sec:build}
@@ -1519,21 +1510,7 @@ Phiên bản flow trong \file{node-red.json} tương thích với \textbf{node-r
 \index{hinh}
 
 \begin{enumerate}[label=\arabic*., leftmargin=1.5cm]
-    \item \textbf{Sơ đồ nguyên lý và mạch thật.} Kết nối theo firmware: DHT11 (DATA$\rightarrow$GPIO0 / D3), LED+R330 ($\rightarrow$GPIO12 / D6), OLED (SH1106) I$^2$C (SCL$\rightarrow$GPIO4 / D2, SDA$\rightarrow$GPIO5 / D1), 3V3 \& GND.
-
-    \begin{figure}[htbp]
-        \centering
-        \includegraphics[width=0.92\textwidth]{\FigSchA}
-        \caption{Sơ đồ nguyên lý (EasyEDA): NodeMCU ESP8266, DHT11, OLED (SH1106), LED qua điện trở.}
-        \label{fig:res-sch}
-    \end{figure}
-
-    \begin{figure}[htbp]
-        \centering
-        \includegraphics[width=0.92\textwidth]{\FigSchB}
-        \caption{Ảnh mạch thật đã lắp ráp (mặt linh kiện / PCB).}
-        \label{fig:res-pcb}
-    \end{figure}
+    \item \textbf{Sơ đồ nguyên lý và mạch thật.} Xem mục~\textbf{\ref{sec:ketnoi}} --- Hình~\ref{fig:gpio-schematic} và Hình~\ref{fig:gpio-pcb}. Tóm tắt kết nối theo firmware: DHT11 (DATA$\rightarrow$GPIO0 / D3), LED+R330 ($\rightarrow$GPIO12 / D6), OLED (SH1106) I$^2$C (SCL$\rightarrow$GPIO4 / D2, SDA$\rightarrow$GPIO5 / D1), 3V3 \& GND.
 
     \item \textbf{Serial Monitor.} Log nhiệt độ, độ ẩm, cảnh báo ngưỡng; có thể có MQTT, LED, NTP, schedule khi firmware chạy ổn định.
 
