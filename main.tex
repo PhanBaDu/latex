@@ -1310,18 +1310,18 @@ Nếu máy tính không nhận Wemos D1 Mini qua USB, cài driver CH340 theo hư
 \label{sec:config}
 \index{caidat}
 
-Mở \file{iot-nhom6.ino} trong Arduino IDE và chỉnh sửa các thông tin sau:
+Sao chép đoạn mã firmware từ \textbf{Phụ lục A} vào Arduino IDE (tạo sketch mới hoặc thay nội dung hiện có), sau đó chỉnh sửa các thông tin sau cho phù hợp:
 
 \textbf{Wi-Fi:}
 
-\begin{lstlisting}[style=cppcode, caption={Cấu hình Wi-Fi trong iot-nhom6.ino}, label={lst:wificfg}]
+\begin{lstlisting}[style=cppcode, caption={Cấu hình Wi-Fi trong firmware (Phụ lục A)}, label={lst:wificfg}]
 const char *ssid     = "Ten_WiFi_cua_ban";
 const char *password = "Mat_khau_WiFi";
 \end{lstlisting}
 
 \textbf{MQTT (HiveMQ Cloud):}
 
-\begin{lstlisting}[style=cppcode, caption={Cấu hình MQTT trong iot-nhom6.ino}, label={lst:mqttcfg}]
+\begin{lstlisting}[style=cppcode, caption={Cấu hình MQTT trong firmware (Phụ lục A)}, label={lst:mqttcfg}]
 const char *mqtt_server = "b1c8f2cc5cd4416fb74b671a407dc0ff.s1.eu.hivemq.cloud";
 const int   mqtt_port   = 8883;
 const char *mqtt_user   = "****";    // Thay bang tai khoan HiveMQ that
@@ -1419,12 +1419,14 @@ Mở trình duyệt tại \textbf{http://127.0.0.1:1880}.
 Phiên bản flow trong \file{node-red.json} tương thích với \textbf{node-red-dashboard 3.6.x}.
 
 % -----------------------------------------------------------------------------
-\subsection{Import Node-RED Flow từ node-red.json}
+\subsection{Import Node-RED Flow từ Phụ lục B}
 \label{sec:import}
 \index{importflow}
 
+Để triển khai flow, cần nạp nội dung Node-RED từ \textbf{Phụ lục B} (file \file{node-red.json} ở cùng thư mục với báo cáo này).
+
 \begin{enumerate}[label=\arabic*., leftmargin=1.5cm]
-    \item Mở \file{node-red.json} $\rightarrow$ \code{Ctrl+A} $\rightarrow$ \code{Ctrl+C}.
+    \item Mở \file{node-red.json} (Phụ lục B) $\rightarrow$ \code{Ctrl+A} $\rightarrow$ \code{Ctrl+C}.
     \item Trong Node-RED: nhấn \textbf{☰ $\rightarrow$ Import}.
     \item Chọn thẻ \textbf{Clipboard}.
     \item Paste nội dung đã copy vào ô.
