@@ -45,6 +45,7 @@
 \titlespacing*{\section}{0pt}{2ex plus .2ex minus .1ex}{1.35ex plus .15ex}
 \titlespacing*{\subsection}{0pt}{1.65ex plus .15ex}{1.05ex plus .1ex}
 \titlespacing*{\subsubsection}{0pt}{1.35ex plus .1ex}{0.85ex plus .08ex}
+\setcounter{secnumdepth}{3} % hiện số mục 3.2.1, 3.2.2 cho \subsubsection
 % \tableofcontents gọi \section* — không dùng [block] giống section có số (tránh 2 tiêu đề + khoảng trắng khổng lồ)
 \renewcommand{\contentsname}{MỤC LỤC}
 \titleformat{name=\section,numberless}[block]
@@ -256,13 +257,19 @@
 % Logo trường: không dùng \urldef trong \href (dễ TeX capacity exceeded). URL gõ \% và \_ để an toàn với LaTeX.
 \newcommand{\HueLogoURL}{https://upload.wikimedia.org/wikipedia/vi/thumb/3/33/Logo\_Tr\%C6\%B0\%E1\%BB\%9Dng\_\%C4\%90\%E1\%BA\%A1i\_h\%E1\%BB\%8Dc\_Khoa\_h\%E1\%BB\%8Dc\%2C\_\%C4\%90\%E1\%BA\%A1i\_h\%E1\%BB\%8Dc\_Hu\%E1\%BA\%BF.svg/250px-Logo\_Tr\%C6\%B0\%E1\%BB\%9Dng\_\%C4\%90\%E1\%BA\%A1i\_h\%E1\%BB\%8Dc\_Khoa\_h\%E1\%BB\%8Dc\%2C\_\%C4\%90\%E1\%BA\%A1i\_h\%E1\%BB\%8Dc\_Hu\%E1\%BA\%BF.svg.png}
 \newcommand{\HueLogoFile}{logo_hueuni.png} % trong \file{images/} (Overleaf: tạo thư mục \file{images}, upload logo vào đó)
-% Ảnh minh họa mục kết quả — cùng \file{images/} với logo
-\newcommand{\FigSchA}{11_A.jpg}
-\newcommand{\FigSchB}{11_B.jpg}
+% Ảnh mạch: \file{11_B.jpg} = sơ đồ EasyEDA | \file{11_A.jpg} = ảnh PCB/mạch thật
+\newcommand{\FigEasyedaSchematic}{11_B.jpg}
+\newcommand{\FigPcbPhoto}{11_A.jpg}
 \newcommand{\FigSerial}{22.jpg}
 \newcommand{\FigOled}{33.jpg}
 \newcommand{\FigNodeRed}{44.png}
 \newcommand{\FigDashboard}{55.png}
+\newcommand{\FigToast}{toast.png}
+\newcommand{\FigLedUi}{slider.png}
+\newcommand{\FigEspBoard}{esp8266.png}
+\newcommand{\FigHwDht}{dht11.png}
+\newcommand{\FigHwOled}{oled.png}
+\newcommand{\FigHwLed}{led.png}
 % =============================================================================
 % ========================  NỘI DUNG TÀI LIỆU  ================================
 % =============================================================================
@@ -439,8 +446,6 @@ Internet of Things (IoT) là xu hướng kết nối các thiết bị vật lý
 \label{sec:noidung}
 \index{noidungthuchien}
 
-Hệ thống thực hiện đầy đủ chín nội dung chính theo yêu cầu đề tài.
-
 % -----------------------------------------------------------------------------
 \subsection{Thu thập dữ liệu môi trường (Cảm biến DHT11)}
 \label{sec:thudulieu}
@@ -469,6 +474,12 @@ Hệ thống thực hiện đầy đủ chín nội dung chính theo yêu cầu 
     \item Đóng gói \textbf{JSON} bằng \code{snprintf} với định dạng:
 \end{enumerate}
 
+\begin{center}
+    \includegraphics[width=0.42\textwidth]{\FigHwDht}\\[0.35em]
+    {\footnotesize\textit{Ảnh minh họa module cảm biến DHT11 (VCC, DATA \texttt{out}, GND).}}
+\end{center}
+\vspace{0.45em}
+
 \begin{lstlisting}[style=jsoncode, caption={JSON payload gửi lên topic iot/env/data}, label={lst:dhtjson}]
 {
   "temperature": 28.0,
@@ -493,6 +504,12 @@ Hệ thống thực hiện đầy đủ chín nội dung chính theo yêu cầu 
 \index{hienthioled}
 
 Màn hình \textbf{OLED (SH1106) 128x64 I2C} hiển thị thông tin cục bộ ngay trên thiết bị, giúp người dùng quan sát nhanh mà không cần mở Dashboard.
+
+\begin{center}
+    \includegraphics[width=0.58\textwidth]{\FigHwOled}\\[0.35em]
+    {\footnotesize\textit{Ảnh màn hình OLED thực tế: nhiệt độ, độ ẩm, trạng thái đèn (tương ứng dữ liệu gửi qua MQTT).}}
+\end{center}
+\vspace{0.35em}
 
 \textbf{Thông số kỹ thuật:}
 
@@ -747,6 +764,12 @@ Node-RED nhận message từ MQTT, parse JSON và phân luồng xử lý.
 
 \textbf{Giao diện NRD} (tab \textbf{Trang Chủ}, nhóm \textbf{Nhiệt Độ}, \textbf{Độ Ẩm}, \textbf{Đèn}):
 
+\begin{center}
+    \includegraphics[width=0.95\textwidth]{\FigDashboard}\\[0.35em]
+    {\footnotesize\textit{Giao diện Dashboard thực tế: gauge \& biểu đồ nhiệt độ/độ ẩm; slider độ sáng và switch bật/tắt đèn (nhóm \textbf{Đèn}).}}
+\end{center}
+\vspace{0.4em}
+
 \begin{table}[htbp]
     \centering
     \caption{Các thành phần Dashboard}
@@ -787,6 +810,12 @@ Gauge nhiệt độ dùng ba vùng màu: xanh ($\le$vùng an toàn), vàng (trun
     \item Toast hiển thị ở \textbf{góc dưới bên trái} trong 3 giây (\code{displayTime: 3}).
 \end{enumerate}
 
+\begin{center}
+    \includegraphics[width=0.72\textwidth]{\FigToast}\\[0.35em]
+    {\footnotesize\textit{Ví dụ \textbf{ui\_toast} trên Dashboard: thông báo cảnh báo nhiệt độ (\texttt{CB Nhiet do!} --- viết tắt cảnh báo), cùng ngữ cảnh biểu đồ và nhóm \textbf{Đèn}.}}
+\end{center}
+\vspace{0.4em}
+
 \begin{table}[htbp]
     \centering
     \caption{Bốn loại cảnh báo môi trường}
@@ -812,6 +841,12 @@ Gauge nhiệt độ dùng ba vùng màu: xanh ($\le$vùng an toàn), vàng (trun
 \index{dieukhien}
 
 Người dùng thao tác trên Dashboard (nhóm \textbf{Đèn}) để gửi lệnh LED qua MQTT.
+
+\begin{center}
+    \includegraphics[width=0.78\textwidth]{\FigLedUi}\\[0.35em]
+    {\footnotesize\textit{Giao diện nhóm \textbf{Đèn}: \textbf{ui\_slider} (\textit{Độ sáng \%}) và \textbf{ui\_switch} (\textit{Bật đèn / Tắt đèn}) --- lệnh được gửi qua \code{mqtt out} tới topic \code{iot/led/power/set}.}}
+\end{center}
+\vspace{0.4em}
 
 \textbf{Bật / Tắt đèn (Switch):}
 
@@ -933,12 +968,26 @@ Người dùng thao tác trên Dashboard (nhóm \textbf{Đèn}) để gửi lệ
 \label{sec:thietke}
 \index{thietke}
 
-Hệ thống được lắp mạch thật theo sơ đồ dưới đây. Không sử dụng mô phỏng Wokwi.
+Hệ thống được thiết kế trên \textbf{EasyEDA} (sơ đồ nguyên lý), in/lắp \textbf{mạch thật} và nạp firmware trong Phụ lục A. Không dùng mô phỏng Wokwi. Mục này bám cấu trúc yêu cầu báo cáo: \textit{linh kiện thực tế} $\rightarrow$ \textit{sơ đồ logic} $\rightarrow$ \textit{kết nối \& mạch vật lý} $\rightarrow$ \textit{giải thích linh kiện}; luồng xử lý chi tiết nằm ở mục~\ref{sec:nguyenly}.
 
 % -----------------------------------------------------------------------------
 \subsection{Thành phần phần cứng}
 \label{sec:phanmem}
 \index{phanmem}
+
+\textbf{Ảnh minh họa linh kiện thực tế} (tương ứng bốn dòng trong Bảng~\ref{tbl:hardware}) --- mỗi hàng một ảnh để tránh vỡ trang khi ảnh lớn:
+
+\begin{center}
+    \includegraphics[width=0.82\textwidth]{\FigEspBoard}\\[0.3em]
+    {\footnotesize\textit{Bo mạch ESP8266 (NodeMCU / dòng tương đương Wemos D1 Mini --- cùng họ chip ESP8266).}}\\[1.0em]
+    \includegraphics[width=0.55\textwidth]{\FigHwDht}\\[0.3em]
+    {\footnotesize\textit{Module cảm biến DHT11 (VCC, DATA, GND).}}\\[1.0em]
+    \includegraphics[width=0.72\textwidth]{\FigHwOled}\\[0.3em]
+    {\footnotesize\textit{Màn hình OLED SH1106 128$\times$64 (I$^2$C).}}\\[1.0em]
+    \includegraphics[width=0.5\textwidth]{\FigHwLed}\\[0.3em]
+    {\footnotesize\textit{Module LED đơn (điều khiển PWM qua GPIO12).}}
+\end{center}
+\vspace{0.55em}
 
 \begin{table}[htbp]
     \centering
@@ -982,24 +1031,32 @@ Hệ thống được lắp mạch thật theo sơ đồ dưới đây. Không s
         \hline
         \textbf{GPIO 5 (D1)} & OLED SDA & Data I2C \\
         \hline
-        \textbf{GPIO 12 (D6)} & LED Anode (A) qua điện trở 330$\Omega$ & PWM output --- trùng \code{LED\_PIN} \\
+        \textbf{GPIO 12 (D6)} & LED Anode (A) qua điện trở hạn dòng (220--330$\Omega$) & PWM output --- trùng \code{LED\_PIN} \\
         \hline
     \end{tabular}
 \end{table}
 
-\textbf{Sơ đồ nguyên lý và mạch thật} (thay cho sơ đồ đấu dây dạng text): Hình~\ref{fig:gpio-schematic} và Hình~\ref{fig:gpio-pcb}.
+\textbf{Ghi chú sơ đồ EasyEDA và firmware:} Trên Hình~\ref{fig:gpio-schematic} (mục~\ref{sec:gpio-easyeda}, file \file{11\_B.jpg}), OLED có thể được vẽ SCL$\rightarrow$D1 (GPIO5), SDA$\rightarrow$D2 (GPIO4) và điện trở LED 220$\Omega$ theo bản vẽ. Bảng~\ref{tbl:gpio} và mã Phụ lục A (\code{OLED\_SCL}=4, \code{OLED\_SDA}=5) mô tả đúng \textbf{cấu hình đang chạy} trên thiết bị; khi làm mạch mới cần thống nhất bản vẽ và \file{iot.txt}. Ảnh mạch thật: mục~\ref{sec:gpio-pcb-photo} (\file{11\_A.jpg}).
+
+\subsubsection{Sơ đồ logic EasyEDA}
+\label{sec:gpio-easyeda}
+\index{sodologicEasyEDA}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{\FigSchA}
-    \caption{Sơ đồ nguyên lý: NodeMCU ESP8266, DHT11, OLED (I$^2$C), LED và điện trở hạn dòng --- tương ứng bảng kết nối Bảng~\ref{tbl:gpio}.}
+    \includegraphics[width=0.92\textwidth]{\FigEasyedaSchematic}
+    \caption{Sơ đồ nguyên lý vẽ trên EasyEDA (\file{11\_B.jpg}): NodeMCU ESP8266, DHT11, OLED (SH1106, I$^2$C), LED và điện trở hạn dòng.}
     \label{fig:gpio-schematic}
 \end{figure}
 
+\subsubsection{Mạch vật lý --- ảnh mạch in thực tế}
+\label{sec:gpio-pcb-photo}
+\index{machvatly}
+
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.92\textwidth]{\FigSchB}
-    \caption{Ảnh mạch in thực tế (mặt hàn linh kiện): module nguồn hạ áp, các mối hàn tới ESP8266 và ngoại vi.}
+    \includegraphics[width=0.92\textwidth]{\FigPcbPhoto}
+    \caption{Ảnh mạch in thực tế (\file{11\_A.jpg}): mặt hàn linh kiện, module nguồn, mối hàn tới ESP8266 và ngoại vi.}
     \label{fig:gpio-pcb}
 \end{figure}
 
@@ -1010,9 +1067,21 @@ Hệ thống được lắp mạch thật theo sơ đồ dưới đây. Không s
 
 \textbf{1) ESP8266 (Wemos D1 Mini)}
 
+\begin{center}
+    \includegraphics[width=0.48\textwidth]{\FigEspBoard}\\[0.3em]
+    {\footnotesize\textit{Bo mạch phát triển ESP8266 (NodeMCU / tương đương Wemos D1 Mini): Wi-Fi, nạp code qua USB, các chân GPIO dùng cho DHT11, I$^2$C OLED và PWM LED.}}
+\end{center}
+\vspace{0.35em}
+
 Vi điều khiển single-core Tensilica LX106, tích hợp Wi-Fi 802.11 b/g/n. Trong project này, ESP8266 đảm nhiệm: kết nối Wi-Fi, giao tiếp MQTT qua TLS, đọc cảm biến DHT11, điều khiển PWM LED thông qua \code{analogWrite()} (không dùng LEDC như ESP32), giao tiếp I2C với OLED (SH1106), và đồng bộ thời gian NTP.
 
 \textbf{2) Cảm biến DHT11}
+
+\begin{center}
+    \includegraphics[width=0.38\textwidth]{\FigHwDht}\\[0.3em]
+    {\footnotesize\textit{Module DHT11: chân nguồn, DATA (1-wire), GND --- nối GPIO0 theo Bảng~\ref{tbl:gpio}.}}
+\end{center}
+\vspace{0.35em}
 
 \begin{table}[htbp]
     \centering
@@ -1041,11 +1110,37 @@ DHT11 trả dữ liệu theo định dạng số 40-bit: 16 bit cho độ ẩm, 
 
 \textbf{3) OLED (SH1106) 128x64 I2C}
 
+\begin{center}
+    \includegraphics[width=0.52\textwidth]{\FigHwOled}\\[0.3em]
+    {\footnotesize\textit{OLED 128$\times$64 I2C trên mạch: hiển thị nhiệt độ, độ ẩm, trạng thái đèn --- song song với dữ liệu gửi MQTT.}}
+\end{center}
+\vspace{0.35em}
+
 Màn hình OLED đơn sắc giao tiếp qua I2C, không có chân reset (dùng \code{U8X8\_PIN\_NONE}). Thư viện \code{U8G2lib} cung cấp API vẽ chuỗi, hỗ trợ nhiều font. Địa chỉ I2C mặc định của SH1106 là \code{0x3C}.
 
-\textbf{4) LED đơn + Điện trở 330$\Omega$}
+\textbf{4) LED đơn + điện trở hạn dòng}
 
-LED đỏ có điện áp hoạt động khoảng 1.8--2.2V và dòng tối đa 20mA. Điện trở 330$\Omega$ được chọn để giới hạn dòng qua LED. ESP8266 dùng \code{analogWrite()} trên GPIO 12 để điều khiển PWM 8-bit (0--255).
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{\FigHwLed}\\[0.3em]
+    {\footnotesize\textit{Module LED đơn (màu đỏ): điều khiển độ sáng PWM qua GPIO12 và điện trở hạn dòng.}}
+\end{center}
+\vspace{0.35em}
+
+LED đỏ có điện áp hoạt động khoảng 1.8--2.2V và dòng tối đa 20mA. Điện trở \textbf{220$\Omega$} trên sơ đồ EasyEDA hoặc \textbf{330$\Omega$} trên mạch thử nghiệm đều dùng để giới hạn dòng. ESP8266 dùng \code{analogWrite()} trên GPIO 12 để điều khiển PWM 8-bit (0--255).
+
+% -----------------------------------------------------------------------------
+\subsection{Luồng hoạt động (tóm tắt theo chức năng)}
+\label{sec:tomtatluong-thietke}
+\index{tomtatluongthietke}
+
+Theo yêu cầu mô tả \textit{flow theo từng chức năng} (cảm biến $\rightarrow$ chân VĐK $\rightarrow$ xử lý $\rightarrow$ topic MQTT $\rightarrow$ \ldots), nhóm tóm tắt bốn luồng chính; \textbf{chi tiết từng bước và lưu đồ} ở mục~\ref{sec:nguyenly}.
+
+\begin{itemize}
+    \item \textbf{Giám sát môi trường:} DHT11 (DATA $\rightarrow$ GPIO0) $\rightarrow$ ESP8266 đọc, so ngưỡng $\rightarrow$ đóng gói JSON $\rightarrow$ \code{mqtt.publish} topic \code{iot/env/data} $\rightarrow$ Node-RED (\code{HandleData}) $\rightarrow$ gauge, chart, toast.
+    \item \textbf{Hiển thị cục bộ:} Cùng dữ liệu DHT \& trạng thái LED $\rightarrow$ \code{displayOLED()} qua I$^2$C (theo \code{OLED\_SCL}/\code{OLED\_SDA} trong Phụ lục A).
+    \item \textbf{Điều khiển LED từ xa:} Dashboard (slider/switch) $\rightarrow$ \code{mqtt out} topic \code{iot/led/power/set} $\rightarrow$ \code{mqttCallback} $\rightarrow$ PWM GPIO12 $\rightarrow$ \code{publishLedStatusIfNeeded} topic \code{iot/led/status} $\rightarrow$ đồng bộ giao diện.
+    \item \textbf{Lịch theo giờ (NTP):} \code{loop()} + \code{isEveningPeriod}/\code{isMorningOffPeriod} $\rightarrow$ bật/tắt LED $\rightarrow$ publish \code{iot/led/status} như trên.
+\end{itemize}
 
 % =============================================================================
 % 4. NGUYÊN LÝ HOẠT ĐỘNG
@@ -1627,6 +1722,23 @@ Hệ thống IoT hoàn chỉnh gồm ba tầng đã được triển khai và ki
 \end{enumerate}
 
 % -----------------------------------------------------------------------------
+\subsection{Công việc chưa thực hiện}
+\label{sec:chualam}
+\index{congviecchuathuchien}
+
+Các hạng mục sau \textbf{chưa} được triển khai trong phạm vi đồ án (đưa vào mục riêng theo yêu cầu báo cáo); phần \textbf{hướng xử lý} tóm tắt ở Bảng~\ref{tbl:limitations}.
+
+\begin{enumerate}[label=\arabic*., leftmargin=1.5cm]
+    \item Xác thực chứng chỉ TLS đầy đủ (\code{setCACert}), không dùng \code{setInsecure()}.
+    \item Lưu trữ dữ liệu lịch sử (database, export CSV) ngoài chart real-time trên Dashboard.
+    \item Relay / tải 220V và cảm biến mở rộng (ánh sáng, khí gas, \ldots).
+    \item Xác thực người dùng trên Node-RED Dashboard (\code{adminAuth} hoặc tương đương).
+    \item OTA cập nhật firmware từ xa.
+    \item Web server tĩnh trên ESP8266 (song song với NRD).
+    \item Nâng cấp độ chính xác đo (ví dụ DHT22) nếu yêu cầu thực tế cao hơn.
+\end{enumerate}
+
+% -----------------------------------------------------------------------------
 \subsection{Hạn chế và hướng phát triển tiếp theo}
 \label{sec:gioi}
 \index{hanche}
@@ -1664,7 +1776,9 @@ Hệ thống IoT hoàn chỉnh gồm ba tầng đã được triển khai và ki
 % PHỤ LỤC A — MÃ NGUỒN
 % =============================================================================
 \appendix
-\section{Hướng dẫn nạp firmware cho ESP8266}
+\phantomsection
+\section*{Phụ lục A --- Mã nguồn chương trình Arduino (ESP8266)}
+\addcontentsline{toc}{section}{Phụ lục A --- Mã nguồn chương trình Arduino (ESP8266)}
 \label{sec:code}
 \index{manguon}
 
@@ -1705,7 +1819,9 @@ Hệ thống IoT hoàn chỉnh gồm ba tầng đã được triển khai và ki
 % =============================================================================
 % PHỤ LỤC B — Node-RED Flow
 % =============================================================================
-\section{Hướng dẫn import Node-RED Flow}
+\phantomsection
+\section*{Phụ lục B --- Mã nguồn Node-RED (JSON flow)}
+\addcontentsline{toc}{section}{Phụ lục B --- Mã nguồn Node-RED (JSON flow)}
 \label{sec:flow}
 \index{flow}
 
@@ -1747,7 +1863,9 @@ Không có mã nguồn web HTML/JS/CSS riêng --- giao diện Dashboard hoàn to
 % =============================================================================
 % PHỤ LỤC C — KHÁC (NẾU CÓ)
 % =============================================================================
-\section{Các nội dung khác (nếu có)}
+\phantomsection
+\section*{Phụ lục C --- Các nội dung khác (nếu có)}
+\addcontentsline{toc}{section}{Phụ lục C --- Các nội dung khác (nếu có)}
 \label{sec:phuluc-c}
 \index{phuluckhac}
 
