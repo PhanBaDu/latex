@@ -11,8 +11,7 @@
 % T5 (tiếng Việt) phải là encoding mặc định — phần tử CUỐI trong danh sách fontenc.
 % [T5,T1] khiến T1 là mặc định → lỗi \UHORN, \OHORN... (Overleaf có thể timeout vì hàng nghìn lỗi).
 \usepackage[T1,T5]{fontenc}
-\usepackage{amsmath} % phải trước newtxmath (không dùng amssymb — trùng \Bbbk với newtxmath)
-% newtxtext + newtxmath = Times New Roman chuẩn, thay thế times + mathptmx (lỗi thời)
+\usepackage{amsmath}
 \usepackage{newtxtext}
 \usepackage{newtxmath}
 % -----------------------------------------------------------------------------
@@ -33,13 +32,13 @@
 % -----------------------------------------------------------------------------
 \usepackage{titlesec}
 \titleformat{\section}[block]
-  {\normalfont\fontsize{17}{21}\selectfont\bfseries\centering}
+  {\fontsize{17}{21}\selectfont\bfseries\centering}
   {}{0em}{}
 \titleformat{\subsection}
-  {\normalfont\fontsize{15}{19}\selectfont\bfseries}
+  {\fontsize{15}{19}\selectfont\bfseries}
   {\thesubsection}{0.75em}{}
 \titleformat{\subsubsection}
-  {\normalfont\fontsize{13}{17}\selectfont\bfseries\itshape}
+  {\fontsize{13}{17}\selectfont\bfseries\itshape}
   {\thesubsubsection}{0.75em}{}
 % Khoảng cách section (gọn hơn mặc định titlesec)
 \titlespacing*{\section}{0pt}{2ex plus .2ex minus .1ex}{1.35ex plus .15ex}
@@ -49,7 +48,7 @@
 % \tableofcontents gọi \section* — không dùng [block] giống section có số (tránh 2 tiêu đề + khoảng trắng khổng lồ)
 \renewcommand{\contentsname}{MỤC LỤC}
 \titleformat{name=\section,numberless}[block]
-  {\normalfont\fontsize{15}{18}\selectfont\bfseries\centering}{}{0em}{}
+  {\fontsize{15}{18}\selectfont\bfseries\centering}{}{0em}{}
 \titlespacing*{name=\section,numberless}{0pt}{0.35\baselineskip}{0.65\baselineskip}
 % -----------------------------------------------------------------------------
 % 4. BẢNG BIỂU
@@ -61,6 +60,8 @@
 \usepackage{seqsplit}
 \usepackage{multirow}
 \usepackage{graphicx}
+\usepackage{float} % [H] — chèn hình đúng vị trí trong trang (tránh float trôi xa khỏi mục 3.2.1)
+\usepackage{placeins} % \FloatBarrier — xả hết float chờ trước mục quan trọng
 % Tất cả ảnh (logo, hình kết quả) đặt trong thư mục \file{images/} --- giống cấu trúc Overleaf chuẩn.
 \graphicspath{{./images/}}
 % Cấu hình bảng mặc định
@@ -315,7 +316,7 @@
 
 \vspace{0.9cm}
 \begin{center}
-    \fontsize{12}{14}\selectfont
+    \fontsize{13}{16}\selectfont
     Huế, Ngày 27 Tháng 03 Năm 2026
 \end{center}
 
@@ -363,7 +364,7 @@ Em xin chân thành cảm ơn!
 \parskip=0pt
 \vspace{0.8cm}
 \hfill\begin{minipage}[t]{7cm}
-    \fontsize{12}{15}\selectfont
+    \fontsize{13}{16}\selectfont
     \begin{flushright}
         \textbf{Nhóm sinh viên thực hiện}\\
         Nhóm 6 --- Lớp TIN4024.009\\
@@ -1009,6 +1010,7 @@ Hệ thống được thiết kế trên \textbf{EasyEDA} (sơ đồ nguyên lý
 \end{table}
 
 % -----------------------------------------------------------------------------
+\FloatBarrier % xả float từ §2 (Node-RED, v.v.) — tránh ảnh GPIO bị đẩy nhầm trang
 \subsection{Kết nối phần cứng (GPIO)}
 \label{sec:ketnoi}
 \index{ketnoi}
@@ -1036,16 +1038,16 @@ Hệ thống được thiết kế trên \textbf{EasyEDA} (sơ đồ nguyên lý
     \end{tabular}
 \end{table}
 
-\textbf{Ghi chú sơ đồ EasyEDA và firmware:} Trên Hình~\ref{fig:gpio-schematic} (mục~\ref{sec:gpio-easyeda}, file \file{11\_B.jpg}), OLED có thể được vẽ SCL$\rightarrow$D1 (GPIO5), SDA$\rightarrow$D2 (GPIO4) và điện trở LED 220$\Omega$ theo bản vẽ. Bảng~\ref{tbl:gpio} và mã Phụ lục A (\code{OLED\_SCL}=4, \code{OLED\_SDA}=5) mô tả đúng \textbf{cấu hình đang chạy} trên thiết bị; khi làm mạch mới cần thống nhất bản vẽ và \file{iot.txt}. Ảnh mạch thật: mục~\ref{sec:gpio-pcb-photo} (\file{11\_A.jpg}).
+\textbf{Ghi chú sơ đồ EasyEDA và firmware:} Trên sơ đồ nguyên lý ở \textbf{mục~\ref{sec:gpio-easyeda}}, OLED có thể được vẽ SCL$\rightarrow$D1 (GPIO5), SDA$\rightarrow$D2 (GPIO4) và điện trở LED 220$\Omega$ theo bản vẽ EasyEDA. Bảng~\ref{tbl:gpio} và mã trong Phụ lục A (\code{OLED\_SCL}=4, \code{OLED\_SDA}=5) mô tả đúng \textbf{cấu hình đang chạy} trên thiết bị; khi làm mạch mới cần thống nhất giữa sơ đồ và mã nguồn. \textbf{Ảnh mạch thực tế} (mặt PCB sau khi hàn) xem \textbf{mục~\ref{sec:gpio-pcb-photo}} (Hình~\ref{fig:gpio-pcb}).
 
 \subsubsection{Sơ đồ logic EasyEDA}
 \label{sec:gpio-easyeda}
 \index{sodologicEasyEDA}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{\FigEasyedaSchematic}
-    \caption{Sơ đồ nguyên lý vẽ trên EasyEDA (\file{11\_B.jpg}): NodeMCU ESP8266, DHT11, OLED (SH1106, I$^2$C), LED và điện trở hạn dòng.}
+    \caption{Sơ đồ nguyên lý vẽ trên EasyEDA: NodeMCU ESP8266, DHT11, OLED (SH1106, I$^2$C), LED và điện trở hạn dòng.}
     \label{fig:gpio-schematic}
 \end{figure}
 
@@ -1053,12 +1055,16 @@ Hệ thống được thiết kế trên \textbf{EasyEDA} (sơ đồ nguyên lý
 \label{sec:gpio-pcb-photo}
 \index{machvatly}
 
-\begin{figure}[htbp]
+Ảnh dưới đây là mạch in thực tế sau khi hàn: mặt hàn linh kiện, module nguồn (buck), các mối nối tới ESP8266 và ngoại vi.
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{\FigPcbPhoto}
-    \caption{Ảnh mạch in thực tế (\file{11\_A.jpg}): mặt hàn linh kiện, module nguồn, mối hàn tới ESP8266 và ngoại vi.}
+    \caption{Ảnh mạch in thực tế: mặt hàn linh kiện, module nguồn, mối hàn tới ESP8266 và ngoại vi.}
     \label{fig:gpio-pcb}
 \end{figure}
+
+\FloatBarrier % tách rõ khối GPIO khỏi float phía dưới (§3.3)
 
 % -----------------------------------------------------------------------------
 \subsection{Giải thích các linh kiện}
@@ -1597,6 +1603,7 @@ Phiên bản flow trong \file{node-red.json} tương thích với \textbf{node-r
 % =============================================================================
 % 6. KẾT QUẢ THỰC HIỆN
 % =============================================================================
+\FloatBarrier
 \section{Kết quả thực hiện}
 \label{sec:ketqua}
 \index{ketqua}
@@ -1607,7 +1614,7 @@ Phiên bản flow trong \file{node-red.json} tương thích với \textbf{node-r
 \index{hinh}
 
 \begin{enumerate}[label=\arabic*., leftmargin=1.5cm]
-    \item \textbf{Sơ đồ nguyên lý và mạch thật.} Xem mục~\textbf{\ref{sec:ketnoi}} --- Hình~\ref{fig:gpio-schematic} và Hình~\ref{fig:gpio-pcb}. Tóm tắt kết nối theo firmware: DHT11 (DATA$\rightarrow$GPIO0 / D3), LED+R330 ($\rightarrow$GPIO12 / D6), OLED (SH1106) I$^2$C (SCL$\rightarrow$GPIO4 / D2, SDA$\rightarrow$GPIO5 / D1), 3V3 \& GND.
+    \item \textbf{Sơ đồ nguyên lý và mạch thật.} Sơ đồ nguyên lý (EasyEDA): \textbf{mục~\ref{sec:gpio-easyeda}}, Hình~\ref{fig:gpio-schematic}. Ảnh mạch in thực tế: \textbf{mục~\ref{sec:gpio-pcb-photo}}, Hình~\ref{fig:gpio-pcb}. Tóm tắt kết nối theo firmware: DHT11 (DATA$\rightarrow$GPIO0 / D3), LED+R330 ($\rightarrow$GPIO12 / D6), OLED (SH1106) I$^2$C (SCL$\rightarrow$GPIO4 / D2, SDA$\rightarrow$GPIO5 / D1), 3V3 \& GND.
 
     \item \textbf{Serial Monitor.} Log nhiệt độ, độ ẩm, cảnh báo ngưỡng; có thể có MQTT, LED, NTP, schedule khi firmware chạy ổn định.
 
@@ -1876,7 +1883,7 @@ Không có phần bổ sung ngoài mã nguồn firmware (Phụ lục A) và JSON
 % =============================================================================
 \addcontentsline{toc}{section}{TÀI LIỆU THAM KHẢO}
 \begin{thebibliography}{99}
-    \fontsize{12}{14}\selectfont
+    \fontsize{13}{16}\selectfont
     \bibitem{esp8266} ESP8266 Community Forum. \textit{ESP8266 Arduino Core Documentation}. Truy cap: \url{https://arduino-esp8266.readthedocs.io/}.
     \bibitem{nodered} Node-RED. \textit{Node-RED Documentation}. IBM \& others. Truy cap: \url{https://nodered.org/docs/}.
     \bibitem{hivemq} HiveMQ. \textit{HiveMQ Cloud}. Truy cap: \url{https://www.hivemq.com/cloud/}.
